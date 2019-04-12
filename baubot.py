@@ -9,7 +9,7 @@ try:
     token = file.readline()
 finally:
     file.close()
-bot = telebot.TeleBot('token');
+bot = telebot.TeleBot('token')
 
 @bot.message_handler(content_types=['text'])
 
