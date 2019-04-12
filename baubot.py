@@ -9,6 +9,8 @@ try:
     token = file.readline()
 finally:
     file.close()
+
+token = token.rstrip("\n\r")
 bot = telebot.TeleBot(token)
 
 @bot.message_handler(content_types=['text'])
