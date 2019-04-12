@@ -48,8 +48,8 @@ def get_age(message):
         try:
              age = int(message.text) #проверяем, что возраст введен корректно
         except Exception:
-            bot.send_message(message.from_user.id, 'Цифрами, пожалуйста')
-    bot.send_message(message.from_user.id, 'Тебе '+str(age)+' лет, тебя зовут '+name+' '+surname+'?')
+            bot.send_message(message.from_user.id, u'Цифрами, пожалуйста')
+    bot.send_message(message.from_user.id, u'Тебе '+str(age)+u' лет, тебя зовут '+name+' '+surname+u'?')
 
 
 bot.polling(none_stop=True, interval=0)
