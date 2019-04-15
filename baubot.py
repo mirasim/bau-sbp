@@ -4,10 +4,15 @@
 import telebot
 import MySQLdb, sys, getopt, time, datetime
 
-global user="root"
-global password="12345"
-global dbhost="127.0.0.1"
-global database="bau"
+global user
+global password
+global dbhost
+global database
+
+user="root"
+password="12345"
+dbhost="127.0.0.1"
+database="bau"
 
 def mysql_execute(sql):
   db = MySQLdb.connect(host=dbhost,
