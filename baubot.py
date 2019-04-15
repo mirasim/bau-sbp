@@ -58,11 +58,10 @@ def get_mid(message):
     bot.send_message(message.from_user.id, u'Введите Наименование Банка')
     global mid
     mid = message.text
-    bot.send_message(message.from_user.id, u'Новый участник '+str(mid)+u' с наименованием '+ str(membername) + u'?')
-        
-        
+    bot.register_next_step_handler(message, get_membername)
+    
+               
 def get_membername(message):
-    bot.send_message(message.from_user.id, u'Введите Наименование Банка')
     global membername
     membername = message.text
     bot.send_message(message.from_user.id, u'Новый участник '+str(mid)+u' с наименованием '+ str(membername) + u'?')
