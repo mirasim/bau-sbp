@@ -64,7 +64,7 @@ def get_mid(message):
 def get_membername(message):
     global membername
     membername = message.text
-    bot.send_message(message.from_user.id, u'Новый участник '+str(mid)+u' с наименованием '+ str(membername) + u'?')
+    bot.send_message(message.from_user.id, u'Новый участник ' + mid + u' с наименованием '+ membername + '?')
 #    bot.register_next_step_handler(message, get_age)
 
 #def get_age(message):
