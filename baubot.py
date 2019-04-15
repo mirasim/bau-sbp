@@ -1,7 +1,24 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import telebot 
+import telebot
+import MySQLdb, sys, getopt, time, datetime
+
+global user="root"
+global password="12345"
+global dbhost="127.0.0.1"
+global database="bau"
+
+def mysql_execute(sql):
+  db = MySQLdb.connect(host=dbhost,
+      user=user,
+      passwd=password,
+      db=database)
+  cursor = db.cursor()
+  cursor.execute(sql)
+  db.commit()
+  db.close()
+
 
 file = open("../bau-sbp-res/token.txt", "r")
 token = "token"
@@ -12,6 +29,9 @@ finally:
 
 token = token.rstrip("\n\r")
 bot = telebot.TeleBot(token)
+
+
+
 
 @bot.message_handler(content_types=['text'])
 # def get_text_messages(message):
@@ -24,32 +44,29 @@ bot = telebot.TeleBot(token)
 
 def start(message):
     if message.text == '/reg':
-        bot.send_message(message.from_user.id, "Как тебя зовут?")
-        bot.register_next_step_handler(message, get_name) #следующий шаг – функция get_name
+        bot.send_message(message.from_user.id, u"Введите Member ID")
+        global mid
+        mid = message.text
+        bot.register_next_step_handler(message, get_membername)
     else:
-        bot.send_message(message.from_user.id, 'Напиши /reg')
+        bot.send_message(message.from_user.id, u'Напиши /reg')
 
-def get_name(message): #получаем фамилию
-    global name
-    name = message.text
-    bot.send_message(message.from_user.id, 'Какая у тебя фамилия?')
-    bot.register_next_step_handler(message, get_surname)
+def get_membername(message):
+    bot.send_message(message.from_user.id, u'Введите Наименование Банка')
+    global membername
+    membername = message.text
+    bot.send_message(message.from_user.id, u'Новый участник '+str(mid)+u' с наименованием '+ str(membername) + u'?')
+#    bot.register_next_step_handler(message, get_age)
 
-def get_surname(message):
-    global surname
-    surname = message.text
-    bot.send_message(message.from_user.id,'Сколько тебе лет?')
-    bot.register_next_step_handler(message, get_age)
-
-def get_age(message):
-    global age
-    age = 0
-    while age == 0: #проверяем что возраст изменился
-        try:
-             age = int(message.text) #проверяем, что возраст введен корректно
-        except Exception:
-            bot.send_message(message.from_user.id, u'Цифрами, пожалуйста')
-    bot.send_message(message.from_user.id, u'Тебе '+str(age)+u' лет, тебя зовут '+name+' '+surname+u'?')
+#def get_age(message):
+#    global age
+#    age = 0
+#    while age == 0: #проверяем что возраст изменился
+#        try:
+#             age = int(message.text) #проверяем, что возраст введен корректно
+#        except Exception:
+#            bot.send_message(message.from_user.id, u'Цифрами, пожалуйста')
+#    bot.send_message(message.from_user.id, u'Тебе '+str(age)+u' лет, тебя зовут '+name+' '+surname+u'?')
 
 
 bot.polling(none_stop=True, interval=0)
